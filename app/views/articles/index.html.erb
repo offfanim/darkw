@@ -1,0 +1,4 @@
+<% @articles.each do |article| %>
+  <%= link_to article.id, "#{article.id}" %>
+  <p><%=article.body%></p>
+<% end %>

@@ -1,0 +1,6 @@
+<% article = @article %>
+
+<p> <%= article.body %> </p>
+<%= link_to "Edit", "#{article.id}/edit" %>
+<%= button_to "Destroy", "#{article.id}",
+    method: :delete %>
