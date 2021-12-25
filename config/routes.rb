@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   get "/:id", to: "articles#show", as: "article"
   get "/", to: "articles#new"
   get "/:id/edit", to: "articles#edit"
-  post "/", to: "articles#create"
+  post "/articles", to: "articles#create"
   patch "/:id", to: "articles#update"
   put "/:id", to: "articles#update"
   delete "/:id", to: "articles#destroy"

@@ -1,5 +1,12 @@
 html
 {
   background: rgb(0, 0, 0);
+  font-family: "Courier", monospace;
   color:rgb(189, 189, 189);
+}
+
+.container
+{
+  max-width: 700px;
+  margin:0 auto;
 }
