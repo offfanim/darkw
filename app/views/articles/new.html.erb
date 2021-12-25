@@ -1,1 +1,17 @@
 <%= render "form", article: @article %>
+
+<!-- Include Quill stylesheet -->
+<link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
+ 
+<!-- toolbar container -->
+<div id="toolbar">
+  <button class="ql-bold">Bold</button>
+  <button class="ql-italic">Italic</button>
+</div>
+ 
+<!-- editor container -->
+<div data-controller="quill">
+  <div id="editor">
+    <p>Hello World!</p>
+  </div>
+</div>
