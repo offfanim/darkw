@@ -1,4 +1,4 @@
 <% @articles.each do |a| %>
   <%= link_to a.id, "#{a.id}" %>
-  <article><%=a.body%></article>
+  <article><%=a.body.html_safe%></article>
 <% end %>
