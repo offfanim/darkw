@@ -44,6 +44,17 @@ class ArticlesController < ApplicationController
   private
 
   def article_params
-    params.require(:article).permit(:body)
+    params.require(:article).permit(:body, :custom_link)
   end
+=begin
+  def set_custom_link(params[:custom_link])
+
+    if params[:custom_link] # содержат только данные символы и меньше такой длинны
+      params[:custom_link] = 
+      params[:custom_link] = :id +
+      
+    end
+
+  end
+=end
 end

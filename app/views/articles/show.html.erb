@@ -1,6 +1,6 @@
 <% a = @article %>
 
-<article> <%= a.body.html_safe %> </article>
+<article> <%= sanitize a.body, attributes: %w(src href target) %> </article>
 <%= link_to "Edit", "#{a.id}/edit" %>
 <%= button_to "Destroy", "#{a.id}",
     method: :delete %>

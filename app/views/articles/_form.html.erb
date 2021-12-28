@@ -1,19 +1,12 @@
 <div data-controller="quill">
-  <div id="toolbar"></div>
   <div id="editor"></div>
 
-  <%= form_with model: article, html: {"data-action" => "quill#fill"} do |form| %>
-    <div>
+  <%= form_with model: article, data: {action: "quill#fill"} do |form| %>
       <%= form.hidden_field :body %>
-
       <% article.errors.full_messages_for(:body).each do |message| %>
         <div><%= message %></div>
       <% end %>
-    </div>
-
-    <div>
-      <%= form.submit "Publish" %>
-    </div>
+      <%= form.submit "Publish", class: "publish" %>
   <% end %>
 
 </div>

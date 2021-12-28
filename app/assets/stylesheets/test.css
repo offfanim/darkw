@@ -1,12 +1,73 @@
-html
-{
-  background: rgb(58, 58, 58);
+html {
+  background: #000000;
   font-family: "Courier", monospace;
-  color:rgb(143, 143, 143);
+  color:#8f8f8f;
+  font-size: 20px;
 }
 
-.container
-{
-  max-width: 700px;
-  margin:0 auto;
+html::-webkit-scrollbar {
+  height: 25px;
+  width: 5px;
+  background-color: #000000;
+}
+html::-webkit-scrollbar-thumb {
+  background-color: #007c0a;
+}
+
+body {
+  margin: 0px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 50px auto 0px;
+}
+
+.ql-editor {
+  min-height: 70vh;
+}
+.container img {
+  max-width: 100%;
+}
+
+.container a {
+  color: #8f8f8f;
+  -webkit-tap-highlight-color: #00b40f;
+  text-decoration: underline solid #007c0a;
+}
+a:hover {
+  color: #007c0a;
+}
+
+.container code,
+.container pre {
+  background-color: #000000;
+  color: #007c0a;
+  border: 2px solid #007c0a;
+  white-space: pre;
+  overflow: auto;
+  margin: 0px;
+  padding: 10px 13px;
+  border-radius: 0px;
+}
+
+.container pre::-webkit-scrollbar {
+  height: 25px;
+  width: 5px;
+  background-color: #000000;
+}
+.container pre::-webkit-scrollbar-thumb {
+  border-radius: 0px;
+  background-color: #007c0a;
+}
+
+.publish {
+  font: 20px "Courier", monospace;
+  background-color: #000000;
+  border: 2px solid #007c0a;
+  color: #007c0a;
+  margin: 50px auto;
+  padding: 10px 17px;
+  text-decoration: none;
+  cursor: pointer;
 }
