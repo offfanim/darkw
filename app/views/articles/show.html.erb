@@ -1,6 +1,7 @@
+<% # link_to 'Patient Record', article_path(@article) %>
 <% a = @article %>
 
 <article> <%= sanitize a.body, attributes: %w(src href target) %> </article>
-<%= link_to "Edit", "#{a.id}/edit" %>
-<%= button_to "Destroy", "#{a.id}",
+<%= link_to "Edit", "/#{a.custom_link}/edit" %>
+<%= button_to "Destroy", "/#{a.custom_link}",
     method: :delete %>

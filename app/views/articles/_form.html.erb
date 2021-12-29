@@ -6,6 +6,12 @@
       <% article.errors.full_messages_for(:body).each do |message| %>
         <div><%= message %></div>
       <% end %>
+
+      <%= form.text_field :custom_link, placeholder: 'custom link' %>
+      <% article.errors.full_messages_for(:custom_link).each do |message| %>
+        <div><%= message %></div>
+      <% end %>
+
       <%= form.submit "Publish", class: "publish" %>
   <% end %>
 
