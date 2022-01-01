@@ -17,24 +17,24 @@ class ArticlesController < ApplicationController
     if @article.save
       clear_custom_link
       @article.save
-      redirect_to "/#{@article.custom_link}"
+      redirect_to @article
     else
       render :new, status: :unprocessable_entity
     end
   end
 
   def edit
-    @article = Article.find_by(custom_link: params[:custom_link])
+    @article = Article.find(params[:custom_link])
   end
 
   def update
-    @article = Article.find_by(custom_link: params[:custom_link])
+    @article = Article.find(params[:custom_link])
     if @article.update(article_params)
       if params[:custom_link] != @article.custom_link
         clear_custom_link
         @article.save
       end
-      redirect_to "/#{@article.custom_link}"
+      redirect_to @article
     else
       render :edit, status: :unprocessable_entity
     end
@@ -44,12 +44,15 @@ class ArticlesController < ApplicationController
     @article = Article.find_by(custom_link: params[:custom_link])
     @article.destroy
 
-    redirect_to root_path
+    redirect_to new_article_path
   end
 
   private
 
   def article_params
+    if params[:article][:body] =~ %r{\A(<p>[[:blank:]]*(<br>)?<\/p>)+\z}
+      params[:article][:body] = ''
+    end
     params.require(:article).permit(:body, :custom_link)
   end
 
@@ -65,7 +68,7 @@ class ArticlesController < ApplicationController
       if new_custom_link == ''
         @article.custom_link = id
       else
-        @article.custom_link = "#{id}-#{new_custom_link}"
+        @article.custom_link = "#{id}-#{new_custom_link}"[0...100]
       end
     end
   end

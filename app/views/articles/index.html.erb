@@ -1,4 +1,4 @@
 <% @articles.each do |a| %>
-  <%= link_to a.custom_link, a.custom_link %>
-  <article><%=a.body.html_safe%></article>
+  <%= link_to a.custom_link, article_path(a) %>
+  <article><%=sanitize a.body, tags: %w(p h1 br em u s a pre img), attributes: %w(src href target)%></article>
 <% end %>
