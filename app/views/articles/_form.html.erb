@@ -7,7 +7,10 @@
         <div><%= message %></div>
       <% end %>
 
-      <%= form.text_field :custom_link, placeholder: 'custom link' %>
+      <%= form.text_field :custom_link,
+        value: "#{article.custom_link&.gsub!(/\A\d*-/, '')}",
+        placeholder: 'custom link'
+      %>
       <% article.errors.full_messages_for(:custom_link).each do |message| %>
         <div><%= message %></div>
       <% end %>

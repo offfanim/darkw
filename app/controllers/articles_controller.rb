@@ -30,10 +30,8 @@ class ArticlesController < ApplicationController
   def update
     @article = Article.find(params[:custom_link])
     if @article.update(article_params)
-      if params[:custom_link] != @article.custom_link
-        clear_custom_link
-        @article.save
-      end
+      clear_custom_link
+      @article.save
       redirect_to @article
     else
       render :edit, status: :unprocessable_entity
@@ -56,9 +54,9 @@ class ArticlesController < ApplicationController
     params.require(:article).permit(:body, :custom_link)
   end
 
-  def clear_custom_link
+  def clear_custom_link # this method needs article.save AFTER and BEFORE
     custom_link = @article.custom_link
-    id = @article.id.to_s  # this metgod should be AFTER article.save
+    id = @article.id.to_s
 
     if [nil, ''].include? custom_link
       @article.custom_link = id
