@@ -10,16 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_23_204009) do
+ActiveRecord::Schema.define(version: 2022_01_25_143622) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "articles", force: :cascade do |t|
-    t.text "body"
-    t.string "custom_link"
+    t.text "body", null: false
+    t.string "custom_link", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "password_digest"
+    t.index ["custom_link"], name: "index_articles_on_custom_link", unique: true
   end
 
 end

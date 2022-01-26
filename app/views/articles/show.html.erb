@@ -1,7 +1,11 @@
-<% # link_to 'Patient Record', article_path(@article) %>
 <% a = @article %>
 
 <article> <%= sanitize a.body, tags: %w(p h1 br em u s a pre img), attributes: %w(src href target) %> </article>
-<%= link_to "Edit", edit_article_path %>
+
+<%= form_with url: edit_article_path, method: :get do |f| %>
+  <%= f.password_field :password, placeholder: 'password' %>
+  <%= f.submit "Edit this article" %>
+<% end %>
+
 <%= button_to "Destroy", article_path,
     method: :delete %>
