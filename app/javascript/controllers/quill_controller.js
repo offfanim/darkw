@@ -29,6 +29,8 @@ export default class extends Controller {
         toolbar: toolbarOptions
       }
     });
+
+
     // change the link placeholder
     var tooltip = quill.theme.tooltip;
     var input = tooltip.root.querySelector("input[data-link]");

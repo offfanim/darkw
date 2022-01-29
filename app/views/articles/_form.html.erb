@@ -9,18 +9,13 @@
 
       <%= form.text_field :custom_link,
         value: custom_link_without_id_for_form(article.custom_link),
-        placeholder: 'custom link'
+        placeholder: 'set custom link'
       %>
       <% article.errors.full_messages_for(:custom_link).each do |message| %>
         <div><%= message %></div>
       <% end %>
 
       <%= form.password_field :password, placeholder: 'set password' %>
-      <% article.errors.full_messages_for(:password).each do |message| %>
-        <div><%= message %></div>
-      <% end %>
-
-      <%= form.password_field :password_confirmation, placeholder: 'password confirmation' %>
       <% article.errors.full_messages_for(:password).each do |message| %>
         <div><%= message %></div>
       <% end %>
