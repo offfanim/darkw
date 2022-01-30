@@ -1,10 +1,6 @@
 class ArticlesController < ApplicationController
   before_action :reset_session, only: [:show, :new]
 
-  def index
-    @articles = Article.all
-  end
-
   def show
     @article = Article.find_by(custom_link: params[:custom_link])
   end
@@ -26,9 +22,10 @@ class ArticlesController < ApplicationController
   def access_to_edit
     @article = Article.find(params[:custom_link])
     if @article.authenticate(params[:password])
-      set_session
+      session[:article_custom_link] = @article.custom_link
       redirect_to edit_article_path
     else
+      flash[:error] = 'wrong password'
       render :show, status: :unprocessable_entity
     end
   end
@@ -41,7 +38,6 @@ class ArticlesController < ApplicationController
     @article = Article.find(session[:article_custom_link])
     if @article.update(article_params)
       clear_custom_link
-      reset_session
       redirect_to @article
     else
       render :edit, status: :unprocessable_entity
@@ -54,12 +50,8 @@ class ArticlesController < ApplicationController
     params.require(:article).permit(:body, :custom_link, :password)
   end
 
-  def set_session
-    reset_session
-    session[:article_custom_link] = @article.custom_link
-  end
-
-  def clear_custom_link # this method needs article.save AFTER and BEFORE
+  # this method needs article.save BEFORE and AFTER
+  def clear_custom_link
     custom_link = @article.custom_link
     id = @article.id.to_s
 

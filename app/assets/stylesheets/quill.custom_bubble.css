@@ -606,7 +606,7 @@
   font-size: 0.67em;
 }
 .ql-bubble .ql-editor a {
-  text-decoration: underline;
+  
 }
 .ql-bubble .ql-editor blockquote {
   border-left: 4px solid #ccc;
@@ -626,7 +626,6 @@
   margin-bottom: 5px;
   margin-top: 5px;
   padding: 5px 10px;
-  cursor: pointer;
 }
 .ql-bubble .ql-editor code {
   font-size: 85%;

@@ -10,7 +10,6 @@ export default class extends Controller {
   }
 
   connect() {
-
     // Quill settings
     var toolbarOptions = [
       [{ 'header': 1 }],

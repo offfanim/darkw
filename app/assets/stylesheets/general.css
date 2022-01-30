@@ -1,3 +1,9 @@
+:focus {outline: none !important;}
+::-moz-focus-outer, ::-moz-focus-inner {
+    border: 0px !important;
+    padding: 0;
+}
+
 html {
   background: #000000;
   font-family: "Courier", monospace;
@@ -18,9 +24,19 @@ body {
   margin: 0px;
 }
 
+article {
+  min-height: 70vh;
+}
+
+form {
+  margin: 50px auto 0;
+  display: flex;
+}
+
 .container {
   max-width: 800px;
-  margin: 50px auto 0px;
+  margin: 50px auto 50px;
+  word-wrap: break-word
 }
 
 .ql-editor {
@@ -28,15 +44,23 @@ body {
 }
 .container img {
   max-width: 100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.errors {
+  color: #e20000;
 }
 
 .container a {
   color: #8f8f8f;
-  -webkit-tap-highlight-color: #00b40f;
+  -webkit-tap-highlight-color: #007c0a;
   text-decoration: underline solid #007c0a;
 }
 a:hover {
-  color: #007c0a;
+  color: #00e213;
+  text-decoration: underline solid #00e213;
 }
 
 .container code,
@@ -61,13 +85,34 @@ a:hover {
   background-color: #007c0a;
 }
 
-.publish {
+.publish_button,
+.edit_button,
+.custom_link_field,
+.password_field {
   font: 20px "Courier", monospace;
   background-color: #000000;
   border: 2px solid #007c0a;
   color: #007c0a;
-  margin: 50px auto;
   padding: 10px 17px;
   text-decoration: none;
+}
+
+.publish_button,
+.edit_button {
   cursor: pointer;
+}
+
+.custom_link_field,
+.password_field {
+  flex-grow: 1;
+  min-width: 60px;
+  margin-right: 5px;
+}
+
+a:focus,
+.publish_button:focus,
+.edit_button:focus,
+.custom_link_field:focus,
+.password_field:focus {
+  border: 2px solid #00c010;
 }

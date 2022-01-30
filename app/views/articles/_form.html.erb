@@ -1,26 +1,25 @@
+<% @article.errors.full_messages.each do |message| %>
+        <div class="errors"><%= message %></div>
+<% end %>
+
 <div data-controller="quill">
   <div id="editor"></div>
 
-  <%= form_with model: article, data: {action: "quill#fill"} do |form| %>
+  <%= form_with model: @article, data: {action: "quill#fill"} do |form| %>
       <%= form.hidden_field :body %>
-      <% article.errors.full_messages_for(:body).each do |message| %>
-        <div><%= message %></div>
-      <% end %>
+
+      <%= form.password_field :password,
+        placeholder: 'set password',
+        class: "password_field"
+      %>
 
       <%= form.text_field :custom_link,
-        value: custom_link_without_id_for_form(article.custom_link),
-        placeholder: 'set custom link'
+        value: custom_link_without_id_for_form(@article.custom_link),
+        placeholder: 'set custom link',
+        class: "custom_link_field"
       %>
-      <% article.errors.full_messages_for(:custom_link).each do |message| %>
-        <div><%= message %></div>
-      <% end %>
 
-      <%= form.password_field :password, placeholder: 'set password' %>
-      <% article.errors.full_messages_for(:password).each do |message| %>
-        <div><%= message %></div>
-      <% end %>
-
-      <%= form.submit "Publish", class: "publish" %>
+      <%= form.submit "publish", class: "publish_button" %>
   <% end %>
 
 </div>

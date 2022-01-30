@@ -12,6 +12,9 @@ class Article < ApplicationRecord
   validates :custom_link,
     length: { maximum: 100 }
 
+  validates :password,
+    length: { maximum: 100 }
+
   def to_param
     custom_link
   end
