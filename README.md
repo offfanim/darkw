@@ -1,4 +1,4 @@
-#### Это мой пет-проект на ruby on rails.
+#### Это мой Ruby on Rails пет-проект.
 
 Потрогать руками можно [здесь](https://darkwrite.herokuapp.com). Прочитать этот readme можно [там же](https://darkwrite.herokuapp.com/1)
 
