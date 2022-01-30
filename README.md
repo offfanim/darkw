@@ -1,7 +1,6 @@
 #### Это мой пет-проект на ruby on rails.
 
-Потрогать руками можно здесь - https://darkwrite.herokuapp.com
-Прочитать этот readme можно там же - https://darkwrite.herokuapp.com/1
+Потрогать руками можно [здесь](https://darkwrite.herokuapp.com). Прочитать этот readme можно [там же](https://darkwrite.herokuapp.com/1)
 
 Основная задумка - клон [telegra.ph](https://telegra.ph/). Простенький сайт для быстрого создания аккуратных статей.
 В качестве текстового редактора использовал [Quill](https://quilljs.com/).
