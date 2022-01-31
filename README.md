@@ -10,24 +10,24 @@
 * Возможность установить на статью настраиваемую ссылку вида '/some_id-some_custom_link'. На статью нельзя попасть перебором id, т.к. в роутах используется только параметр `custom_link`. Если ссылка не установлена - вместо неё устанавливается голый id.
 Для этого написал вот такой метод в сервис-объекте:
 ```ruby
-  # this method needs id, therefore it needs article.save before
-  def call
-    custom_link = @article.custom_link
-    id = @article.id.to_s
+# this method needs id, therefore it needs article.save before
+def call
+  custom_link = @article.custom_link
+  id = @article.id.to_s
 
-    if custom_link.blank?
+  if custom_link.blank?
+    @article.custom_link = id
+  else
+    new_custom_link = custom_link.gsub(/[ _]/, '-').delete('^A-Za-z0-9-')
+
+    if new_custom_link.blank?
       @article.custom_link = id
     else
-      new_custom_link = custom_link.gsub(/[ _]/, '-').delete('^A-Za-z0-9-')
-
-      if new_custom_link.blank?
-        @article.custom_link = id
-      else
-        @article.custom_link = "#{id}-#{new_custom_link}"[0...100]
-      end
+      @article.custom_link = "#{id}-#{new_custom_link}"[0...100]
     end
-    return @article.custom_link if @article.save
   end
+  return @article.custom_link if @article.save
+end
 ```
 
 * Возможность установить пароль на статью, чтобы редактировать её в дальнейшем. Если пароль не установлен - редактировать нельзя.
