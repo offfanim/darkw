@@ -8,33 +8,26 @@
 Что тут есть:
 
 * Возможность установить на статью настраиваемую ссылку вида '/some_id-some_custom_link'. На статью нельзя попасть перебором id, т.к. в роутах используется только параметр `custom_link`. Если ссылка не установлена - вместо неё устанавливается голый id.
-Для этого написал вот такой метод:
+Для этого написал вот такой метод в сервис-объекте:
 ```ruby
-after_save :clear_custom_link_current_article
-# ...
+  # this method needs id, therefore it needs article.save before
+  def call
+    custom_link = @article.custom_link
+    id = @article.id.to_s
 
-private
-
-# this method needs id, therefore it needs article.save before
-def clear_custom_link_current_article
-  custom_link = self.custom_link
-  id = self.id.to_s
-
-  if custom_link.blank?
-    self.custom_link = id
-  else
-    new_custom_link = custom_link.gsub(/[ _]/, '-').delete('^A-Za-z0-9-')
-
-    if new_custom_link.blank?
-      self.custom_link = id
+    if custom_link.blank?
+      @article.custom_link = id
     else
-      self.custom_link = "#{id}-#{new_custom_link}"[0...100]
+      new_custom_link = custom_link.gsub(/[ _]/, '-').delete('^A-Za-z0-9-')
+
+      if new_custom_link.blank?
+        @article.custom_link = id
+      else
+        @article.custom_link = "#{id}-#{new_custom_link}"[0...100]
+      end
     end
+    return @article.custom_link if @article.save
   end
-  Article.skip_callback :save, :after, :clear_custom_link_current_article
-  self.save
-  Article.set_callback :save, :after, :clear_custom_link_current_article
-end
 ```
 
 * Возможность установить пароль на статью, чтобы редактировать её в дальнейшем. Если пароль не установлен - редактировать нельзя.
@@ -63,11 +56,6 @@ end
 def edit
   @article = Article.find(session[:article_custom_link])
 end
-
-def update
-  @article = Article.find(session[:article_custom_link])
-  if @article.update(article_params)
-  # ...
 ```
 
 * Quill подключается с помощью stimulus. С помощью экшенов стимулюс контроллера тело статьи загружется из окна редактора в `<%= form.hidden_field :body %>` при отправке формы, а при открытии страницы `/edit` наоборот выгружается из скрытого поля в окно редактора.

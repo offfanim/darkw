@@ -12,7 +12,8 @@ class ArticlesController < ApplicationController
   def create
     @article = Article.new(article_params)
     if @article.save
-      redirect_to @article
+      new_custom_link = ClearCustomLinkService.call(article_params[:custom_link])
+      redirect_to article_path(new_custom_link)
     else
       render :new, status: :unprocessable_entity
     end
@@ -36,7 +37,8 @@ class ArticlesController < ApplicationController
   def update
     @article = Article.find(session[:article_custom_link])
     if @article.update(article_params)
-      redirect_to @article
+      new_custom_link = ClearCustomLinkService.call(article_params[:custom_link])
+      redirect_to article_path(new_custom_link)
     else
       render :edit, status: :unprocessable_entity
     end
