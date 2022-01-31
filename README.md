@@ -1,9 +1,41 @@
-#### Это мой пет-проект на ruby on rails.
+#### Это мой Ruby on Rails пет-проект.
+
+Потрогать руками можно [здесь](https://darkwrite.herokuapp.com). Прочитать этот readme можно [там же](https://darkwrite.herokuapp.com/1)
 
 Основная задумка - клон [telegra.ph](https://telegra.ph/). Простенький сайт для быстрого создания аккуратных статей.
 В качестве текстового редактора использовал [Quill](https://quilljs.com/).
 
 Что тут есть:
+
+* Возможность установить на статью настраиваемую ссылку вида '/some_id-some_custom_link'. На статью нельзя попасть перебором id, т.к. в роутах используется только параметр `custom_link`. Если ссылка не установлена - вместо неё устанавливается голый id.
+Для этого написал вот такой метод:
+```ruby
+after_save :clear_custom_link_current_article
+# ...
+
+private
+
+# this method needs id, therefore it needs article.save before
+def clear_custom_link_current_article
+  custom_link = self.custom_link
+  id = self.id.to_s
+
+  if custom_link.blank?
+    self.custom_link = id
+  else
+    new_custom_link = custom_link.gsub(/[ _]/, '-').delete('^A-Za-z0-9-')
+
+    if new_custom_link.blank?
+      self.custom_link = id
+    else
+      self.custom_link = "#{id}-#{new_custom_link}"[0...100]
+    end
+  end
+  Article.skip_callback :save, :after, :clear_custom_link_current_article
+  self.save
+  Article.set_callback :save, :after, :clear_custom_link_current_article
+end
+```
 
 * Возможность установить пароль на статью, чтобы редактировать её в дальнейшем. Если пароль не установлен - редактировать нельзя.
 Реализовал следующим образом:
@@ -23,7 +55,7 @@ def access_to_edit
     session[:article_custom_link] = @article.custom_link
     redirect_to edit_article_path
   else
-    flash[:error] = 'wrong password'
+    flash.now[:error] = 'wrong password'
     render :show, status: :unprocessable_entity
   end
 end
@@ -35,67 +67,44 @@ end
 def update
   @article = Article.find(session[:article_custom_link])
   if @article.update(article_params)
-    clear_custom_link
-    redirect_to @article
-  else
-    render :edit, status: :unprocessable_entity
-  end
-end
-```
-
-* Возможность установить на статью настраиваемую ссылку вида '/some_id-some_custom_link'. На статью нельзя попасть перебором id, т.к. в роутах используется только параметр `custom_link`. Если ссылка не установлена - вместо неё устанавливается голый id.
-Для этого я написал вот такой метод:
-```ruby
-def clear_custom_link
-  custom_link = @article.custom_link
-  id = @article.id.to_s
-
-  if custom_link.blank?
-    @article.custom_link = id
-  else
-    new_custom_link = custom_link.gsub(/[ _]/, '-').delete('^A-Za-z0-9-')
-
-    if new_custom_link.blank?
-      @article.custom_link = id
-    else
-      @article.custom_link = "#{id}-#{new_custom_link}"[0...100]
-    end
-  end
-  @article.save
-end
+  # ...
 ```
 
 * Quill подключается с помощью stimulus. С помощью экшенов стимулюс контроллера тело статьи загружется из окна редактора в `<%= form.hidden_field :body %>` при отправке формы, а при открытии страницы `/edit` наоборот выгружается из скрытого поля в окно редактора.
 Вот как это реализовано:
 ```html
 # in _form.html.erb
-<div data-controller="quill">
-  <div id="editor"></div>
+<div data-controller='quill'>
+  <div data-quill-target='editor'></div>
 
-  <%= form_with model: @article, data: {action: "quill#fill"} do |form| %>
-    <%= form.hidden_field :body %>
-    ...
+  <%= form_with model: @article, data: {action: 'quill#fill'} do |form| %>
+      <%= form.hidden_field :body,
+        data: {'quill-target' => 'article'}
+      %>
+  ...
 ```
 ```js
 // in quill_controller.js
+export default class extends Controller {
+  static targets = [ "editor", "article" ]
+
   // fill hidden form before submit
   fill() {
-    document.getElementById('article_body').value = document.querySelector('.ql-editor').innerHTML
+    this.articleTarget.value = document.querySelector('.ql-editor').innerHTML
   }
 
   connect() {
-    // Quill settings
-    ...
+    // some Quill settings...
 
-    var container = document.getElementById('editor');
+    let container = this.editorTarget;
 
-    var quill = new Quill(container, {
+    let quill = new Quill(container, {
       theme: 'bubble',
       placeholder: 'Write',
-      ...
+      // some Quill settings...
 
     // fill Quill editor from article value in edit viev
-    document.querySelector('.ql-editor').innerHTML = document.getElementById('article_body').value;
+    document.querySelector('.ql-editor').innerHTML = this.articleTarget.value;
 
     // focus on textarea after load page
     quill.focus();

@@ -1,0 +1,9 @@
+<% if @article.created_at.strftime("%Y-%m-%d") == @article.updated_at.strftime("%Y-%m-%d") %>
+  <div class="timestamps">
+    <p>created <%= @article.created_at.strftime("%Y-%m-%d") %></p>
+  </div>
+<% else %>
+  <div class="timestamps">
+    <p>created <%= @article.created_at.strftime("%Y-%m-%d") %>, last update <%= @article.updated_at.strftime("%Y-%m-%d") %></p>
+  </div>
+<% end %>

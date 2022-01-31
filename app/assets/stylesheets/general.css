@@ -53,6 +53,10 @@ form {
   color: #e20000;
 }
 
+.timestamps {
+  margin: 50px auto 50px;
+}
+
 .container a {
   color: #8f8f8f;
   -webkit-tap-highlight-color: #007c0a;

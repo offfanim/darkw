@@ -1,0 +1,7 @@
+<% if flash[:error].present? %>
+  <div class="errors"><%= flash[:error] %></div>
+<% end %>
+
+<% @article.errors.full_messages.each do |message| %>
+  <div class="errors"><%= message %></div>
+<% end %>

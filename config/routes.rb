@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  root 'articles#new'
-
   get '/',
     to: 'articles#new',
     as: 'new_article'

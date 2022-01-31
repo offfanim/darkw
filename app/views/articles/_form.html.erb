@@ -1,25 +1,22 @@
-<% @article.errors.full_messages.each do |message| %>
-        <div class="errors"><%= message %></div>
-<% end %>
+<div data-controller='quill'>
+  <div data-quill-target='editor'></div>
 
-<div data-controller="quill">
-  <div id="editor"></div>
-
-  <%= form_with model: @article, data: {action: "quill#fill"} do |form| %>
-      <%= form.hidden_field :body %>
+  <%= form_with model: @article, data: {action: 'quill#fill'} do |form| %>
+      <%= form.hidden_field :body,
+        data: {'quill-target' => 'article'}
+      %>
 
       <%= form.password_field :password,
         placeholder: 'set password',
-        class: "password_field"
+        class: 'password_field'
       %>
 
       <%= form.text_field :custom_link,
         value: custom_link_without_id_for_form(@article.custom_link),
         placeholder: 'set custom link',
-        class: "custom_link_field"
+        class: 'custom_link_field'
       %>
 
-      <%= form.submit "publish", class: "publish_button" %>
+      <%= form.submit 'publish', class: 'publish_button' %>
   <% end %>
-
 </div>
