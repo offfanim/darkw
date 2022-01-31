@@ -37,9 +37,9 @@ end
 has_secure_password(validations: false)
 
 # in routes.rb
-  post '/:custom_link/access_to_edit',
-    to: 'articles#access_to_edit',
-    as: 'access_to_edit_article'
+post '/:custom_link/access_to_edit',
+  to: 'articles#access_to_edit',
+  as: 'access_to_edit_article'
 
 # in articles_controller.rb
 def access_to_edit
